@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Level1_TinyOcean.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Level2_TinyOcean.unity
+    guid: 3be91a5003e4cda4a9db56d9e23c930d
+  - enabled: 1
+    path: Assets/Scenes/Level3_TinyOcean.unity
+    guid: c33da71550ed0cc41b49121c9ea8ccb8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 1a3bec502ef56f64fa957a6e22411b15, type: 2}
