@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 85cf0b004bc4a654b9e501efcce47902, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1447,9 +1447,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5096395598427481831, guid: 9f69d682b3e04194880255b476a244a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1240853289}
-    - targetCorrespondingSourceObject: {fileID: -5947563880225479776, guid: 9f69d682b3e04194880255b476a244a6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1121254102}
   m_SourcePrefab: {fileID: -4161369568681901532, guid: 9f69d682b3e04194880255b476a244a6, type: 3}
 --- !u!1 &1022093483
 GameObject:
@@ -1483,20 +1480,6 @@ Transform:
   - {fileID: 1690136849}
   m_Father: {fileID: 383250825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1121254102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3275808156834974787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba7dabd6a4eb5f14b9d14f8a782358d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1.2
-  amount: 0.05
 --- !u!1001 &1182268635
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2128,11 +2111,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
---- !u!1 &3275808156834974787 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -5947563880225479776, guid: 9f69d682b3e04194880255b476a244a6, type: 3}
-  m_PrefabInstance: {fileID: 1011789795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5096395597425723652 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5096395598427481831, guid: 9f69d682b3e04194880255b476a244a6, type: 3}
