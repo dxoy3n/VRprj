@@ -50,9 +50,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Depth: 5
+    - _Lerp: 1
     - _Normal_Strength: 0.4
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Refraction: 0.06
     - _Smoothness: 0.8
     - _Water_Lerp: 0.5
     m_Colors:
