@@ -1,68 +1,37 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace vnc.FX
 {
     public class WaterCamera : MonoBehaviour
     {
+        [Header("Wobble Shader Effect")]
+        [Tooltip("Gán Material xài Shader WobbleFx vào đây")]
         public Material Wobble;
-        public Color underwaterColor;
-        public BlendMode Blend;
 
-        [Header("Shaders"), Space]
-        public Shader multiply;
-        public Shader overlay;
-        public Shader screen;
+        [Header("URP Volume Settings")]
+        [Tooltip("Gán GameObject UnderwaterVolume vào đây")]
+        public Volume underwaterVolume;
+
+        [Tooltip("Tốc độ chuyển đổi hiệu ứng khi chìm/nổi")]
+        public float transitionSpeed = 5f;
 
         [HideInInspector] public bool effectActive;
 
         private void Update()
         {
-            switch (Blend)
+            // 1. Quản lý Weight của Volume dưới nước
+            if (underwaterVolume != null)
             {
-                case BlendMode.Multiply:
-                    Wobble.shader = multiply;
-                    break;
-                case BlendMode.Overlay:
-                    Wobble.shader = overlay;
-                    break;
-                case BlendMode.Screen:
-                    Wobble.shader = screen;
-                    break;
-                default:
-                    break;
+                float targetWeight = effectActive ? 1f : 0f;
+                underwaterVolume.weight = Mathf.Lerp(underwaterVolume.weight, targetWeight, Time.deltaTime * transitionSpeed);
+            }
+
+            // 2. Kích hoạt hiệu ứng Wobble trên Material
+            if (Wobble != null)
+            {
+                // Truyền trạng thái bật/tắt hoặc điều khiển thuộc tính Material ở đây nếu cần
             }
         }
-
-        public void SetBlend(int mode)
-        {
-            Blend = (BlendMode)mode;
-        }
-
-        private void OnRenderImage(RenderTexture source, RenderTexture destination)
-        {
-            if (Wobble == null)
-            {
-                Graphics.Blit(source, destination);
-                return;
-            }
-
-            if (effectActive)
-            {
-                Wobble.SetColor("_Color", underwaterColor);
-                Graphics.Blit(source, destination, Wobble);
-            }
-            else
-            {
-                Wobble.SetColor("_Color", Color.white);
-                Graphics.Blit(source, destination);
-            }
-        }
-    }
-
-    public enum BlendMode
-    {
-        Multiply, 
-        Overlay,
-        Screen
     }
 }
