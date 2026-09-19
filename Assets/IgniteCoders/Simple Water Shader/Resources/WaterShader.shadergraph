@@ -70,9 +70,6 @@
             "m_Id": "81c41c24bb68455d9aca08786eb44ab4"
         },
         {
-            "m_Id": "a3f520fe7a9f484aa10bcb3e7213612f"
-        },
-        {
             "m_Id": "260b61a6034f4a2da0b4cfa1cc746c25"
         },
         {
@@ -242,6 +239,9 @@
         },
         {
             "m_Id": "0f7e665c1ed84efea2642d9393e687ec"
+        },
+        {
+            "m_Id": "9121f573856e472b9d9e0f64a5330a52"
         }
     ],
     "m_GroupDatas": [
@@ -1134,9 +1134,6 @@
                 "m_Id": "81c41c24bb68455d9aca08786eb44ab4"
             },
             {
-                "m_Id": "a3f520fe7a9f484aa10bcb3e7213612f"
-            },
-            {
                 "m_Id": "260b61a6034f4a2da0b4cfa1cc746c25"
             },
             {
@@ -1150,6 +1147,9 @@
             },
             {
                 "m_Id": "f6a24c83d76f43b3afb5e0e17c26c0c9"
+            },
+            {
+                "m_Id": "9121f573856e472b9d9e0f64a5330a52"
             }
         ]
     },
@@ -2200,21 +2200,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "253159b57fbb47559945abd51d5ca973",
-    "m_Id": 0,
-    "m_DisplayName": "Metallic",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Metallic",
-    "m_StageCapability": 2,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "260b61a6034f4a2da0b4cfa1cc746c25",
     "m_Group": {
@@ -2278,7 +2263,7 @@
     "m_Title": "Water Reflection",
     "m_Position": {
         "x": 1538.4000244140625,
-        "y": -529.6000366210938
+        "y": -529.5999755859375
     }
 }
 
@@ -3110,8 +3095,8 @@
     "m_ObjectId": "4f72e8edfd7843ba9e8eed127473be67",
     "m_Title": "Water Normals",
     "m_Position": {
-        "x": -748.7999877929688,
-        "y": -1061.60009765625
+        "x": -747.9999389648438,
+        "y": -1061.5999755859375
     }
 }
 
@@ -3121,8 +3106,8 @@
     "m_ObjectId": "5095380f464e433e85d3701acaa49492",
     "m_Title": "Water Color",
     "m_Position": {
-        "x": 2039.19970703125,
-        "y": 284.0
+        "x": 2040.0,
+        "y": 283.199951171875
     }
 }
 
@@ -4370,8 +4355,8 @@
     "m_ObjectId": "743c36f8f4e04cd9814a2b4da7365f39",
     "m_Title": "Water Displacement",
     "m_Position": {
-        "x": -748.7999877929688,
-        "y": -1947.2000732421875
+        "x": -747.9999389648438,
+        "y": -1948.0001220703125
     }
 }
 
@@ -5168,6 +5153,40 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "9121f573856e472b9d9e0f64a5330a52",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SurfaceDescription.Specular",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "d4c36176cf104cd5b93499de71a40b06"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "SurfaceDescription.Specular"
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "915c12111b7c45e598f9943e6fc9a835",
     "m_Group": {
@@ -5650,40 +5669,6 @@
         "b": 0.5,
         "a": 1.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "a3f520fe7a9f484aa10bcb3e7213612f",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.Metallic",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "253159b57fbb47559945abd51d5ca973"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.Metallic"
 }
 
 {
@@ -6198,7 +6183,7 @@
     "m_AlphaMode": 0,
     "m_RenderFace": 0,
     "m_AlphaClip": true,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_DisableTint": false,
     "m_AdditionalMotionVectorMode": 0,
@@ -6438,7 +6423,7 @@
     "m_SGVersion": 2,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalLitSubTarget",
     "m_ObjectId": "d1e2707e248f4241a33c28914fa0849f",
-    "m_WorkflowMode": 1,
+    "m_WorkflowMode": 0,
     "m_NormalDropOffSpace": 0,
     "m_ClearCoat": false,
     "m_BlendModePreserveSpecular": false
@@ -6626,6 +6611,36 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.ColorRGBMaterialSlot",
+    "m_ObjectId": "d4c36176cf104cd5b93499de71a40b06",
+    "m_Id": 0,
+    "m_DisplayName": "Specular Color",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Specular",
+    "m_StageCapability": 2,
+    "m_Value": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+    },
+    "m_DefaultValue": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+    },
+    "m_Labels": [],
+    "m_ColorMode": 0,
+    "m_DefaultColor": {
+        "r": 0.5,
+        "g": 0.5,
+        "b": 0.5,
+        "a": 1.0
+    }
 }
 
 {
@@ -6882,7 +6897,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -8076,8 +8091,8 @@
     "m_ObjectId": "ffe60b9b4f7b4cb08ebd77f58bc03c9d",
     "m_Title": "Water Depth",
     "m_Position": {
-        "x": -830.4000244140625,
-        "y": 202.39990234375
+        "x": -830.3999633789063,
+        "y": 202.4000244140625
     }
 }
 
