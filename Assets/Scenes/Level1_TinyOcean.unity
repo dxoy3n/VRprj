@@ -6803,7 +6803,6 @@ MonoBehaviour:
   ambientAudioSource: {fileID: 8644734730366432047}
   surfaceAmbience: {fileID: 8300000, guid: 627e0791d8d3f9248820dc5a725885b2, type: 3}
   underwaterAmbience: {fileID: 8300000, guid: 8f1b255d85888a9408fe3e75cc960dc3, type: 3}
-  wobbleRendererFeature: {fileID: 0}
 --- !u!1001 &1825243705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11929,7 +11928,7 @@ Transform:
   m_GameObject: {fileID: 6457753075545474339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -18,10 +18,6 @@ public class UnderwaterDepth : MonoBehaviour
     [SerializeField] private AudioClip surfaceAmbience;    // Tiếng sóng biển trên bờ
     [SerializeField] private AudioClip underwaterAmbience; // Tiếng ọc ọc / ù ù dưới nước
 
-    [Header("Screen Wobble (Full Screen Pass)")]
-    [Tooltip("Thả Full Screen Pass Renderer Feature vào đây (nếu dùng Feature), nếu Wobble nằm trong Volume Profile thì để trống")]
-    [SerializeField] private ScriptableRendererFeature wobbleRendererFeature;
-
     private bool isUnderwater;
 
     private void Update()
@@ -55,12 +51,6 @@ public class UnderwaterDepth : MonoBehaviour
                     {
                         ambientAudioSource.Stop();
                     }
-                }
-
-                // --- 2. BẬT/TẮT HIỆU ỨNG WOBBLE  ---
-                if (wobbleRendererFeature != null)
-                {
-                    wobbleRendererFeature.SetActive(isUnderwater);
                 }
             }
         }
