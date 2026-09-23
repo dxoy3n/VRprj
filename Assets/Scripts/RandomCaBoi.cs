@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RandomFishSwim : MonoBehaviour
+public class RandomCaBoi : MonoBehaviour
 {
     [Header("Cấu hình vùng bơi (15m x 15m)")]
     public Vector3 centerPosition = Vector3.zero;
