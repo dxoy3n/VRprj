@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.InputSystem; // Thư viện Input System mới
+using UnityEngine.InputSystem;
 
 public class FishInspectTarget : MonoBehaviour
 {
@@ -9,9 +9,17 @@ public class FishInspectTarget : MonoBehaviour
     public AudioSource audioSource;     // AudioSource phát tiếng
     public AudioClip fishInfoAudio;     // File ghi âm thông tin cá
 
-    [Header("Khoảng cách xuất hiện trước mặt người chơi")]
-    public float distanceFromCamera = 1f; // Cách người chơi 1.5 mét
-    public float moveSpeed = 3.0f;          // Tốc độ cá di chuyển lại gần
+    [Header("Khoảng cách & Góc quay")]
+    [Tooltip("Khoảng cách cá xuất hiện trước mặt người chơi")]
+    public float distanceFromCamera = 1.3f; 
+
+    [Tooltip("Độ cao cộng thêm so với Camera (Căng chỉnh nếu cá bị chui xuống đất)")]
+    public float heightOffset = 0.3f; // Cộng thêm 0.3m cho cá nâng lên vừa tầm mắt
+
+    public float moveSpeed = 3.0f;
+
+    [Tooltip("Tích chọn để cá xoay thân ngang nghiêng 90 độ")]
+    public bool lookSideWays = true; 
 
     [Header("Tham chiếu Component")]
     public RandomCaBoi fishSwimScript;
@@ -24,7 +32,6 @@ public class FishInspectTarget : MonoBehaviour
 
     void Start()
     {
-        // Tự động tìm Camera chính của người chơi (XR Origin Camera)
         if (Camera.main != null)
         {
             mainCameraTransform = Camera.main.transform;
@@ -36,38 +43,32 @@ public class FishInspectTarget : MonoBehaviour
 
     void Update()
     {
-        // Làm Panel luôn xoay về phía người chơi
         if (isInspecting && infoPanel != null && mainCameraTransform != null)
         {
             infoPanel.transform.LookAt(infoPanel.transform.position + mainCameraTransform.rotation * Vector3.forward,
                                        mainCameraTransform.rotation * Vector3.up);
         }
 
-        // 1. Test bấm phím SPACE
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             ToggleInspect();
         }
 
-        // 2. Test CLICK CHUỘT TRÁI vào con cá (Dành riêng cho Input System mới)
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             CheckMouseClickOnFish();
         }
     }
 
-    // Hàm kiểm tra xem con trỏ chuột có đang nhấp vào con cá này không
     private void CheckMouseClickOnFish()
     {
         if (Camera.main == null) return;
 
-        // Bắn 1 tia Raycast từ vị trí con trỏ chuột vào không gian 3D
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
         {
-            // Nếu vị trí click trúng chính con cá này (hoặc con của nó)
             if (hit.transform == transform || hit.transform.IsChildOf(transform))
             {
                 ToggleInspect();
@@ -75,7 +76,6 @@ public class FishInspectTarget : MonoBehaviour
         }
     }
 
-    // Hàm gọi khi bấm/chạm vào cá (Dùng được cho cả phím/chuột lẫn XR Simple Interactable)
     public void ToggleInspect()
     {
         isInspecting = !isInspecting;
@@ -85,22 +85,31 @@ public class FishInspectTarget : MonoBehaviour
 
         if (isInspecting)
         {
-            // 1. Tắt script bơi tự do
             if (fishSwimScript != null) fishSwimScript.enabled = false;
 
-            // 2. Lưu lại vị trí & góc quay cũ của cá
             originalPosition = transform.position;
             originalRotation = transform.rotation;
 
-            // 3. Tính vị trí ngay trước mặt người chơi
+            // Tính vị trí trước mặt người chơi và CỘNG THÊM ĐỘ CAO heightOffset
             Vector3 targetInspectPos = mainCameraTransform.position + (mainCameraTransform.forward * distanceFromCamera);
+            targetInspectPos.y += heightOffset; // Nâng độ cao lên không bị chui xuống đất
 
-            // 4. Di chuyển cá tới trước mặt người chơi & mở Panel
-            currentMoveCoroutine = StartCoroutine(MoveToTarget(targetInspectPos, Quaternion.LookRotation(-mainCameraTransform.forward), true));
+            // Hướng nhìn ngang song song mặt đất
+            Vector3 lookDir = -mainCameraTransform.forward;
+            lookDir.y = 0; // Giữ góc nhìn nằm ngang phẳng, không bị chúc đầu xuống
+            if (lookDir == Vector3.zero) lookDir = Vector3.forward;
+
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+
+            if (lookSideWays)
+            {
+                targetRotation *= Quaternion.Euler(0, 90, 0); // Xoay nghiêng thân cá 90 độ
+            }
+
+            currentMoveCoroutine = StartCoroutine(MoveToTarget(targetInspectPos, targetRotation, true));
         }
         else
         {
-            // Đóng Panel & đưa cá về vị trí cũ
             CloseInspect();
         }
     }
@@ -114,11 +123,9 @@ public class FishInspectTarget : MonoBehaviour
         if (currentMoveCoroutine != null)
             StopCoroutine(currentMoveCoroutine);
 
-        // Di chuyển cá về vị trí bơi cũ rồi bật lại script bơi
         currentMoveCoroutine = StartCoroutine(MoveToTarget(originalPosition, originalRotation, false));
     }
 
-    // Hàm phát loa thông tin
     public void PlayAudioInfo()
     {
         if (audioSource != null && fishInfoAudio != null)
@@ -145,7 +152,6 @@ public class FishInspectTarget : MonoBehaviour
         }
         else
         {
-            // Khi đã về vị trí cũ, bật lại script bơi
             if (fishSwimScript != null) fishSwimScript.enabled = true;
         }
     }
