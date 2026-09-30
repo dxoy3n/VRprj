@@ -36,9 +36,8 @@ public class StartMenu : MonoBehaviour
         Debug.Log("Game is exiting...");
         Application.Quit();
 
-
+        #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-
-
+        #endif
     }
 }
