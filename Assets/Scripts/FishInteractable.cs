@@ -6,21 +6,26 @@ using System.Collections;
 public class FishInteractable : MonoBehaviour
 {
     [Header("1. Dữ liệu riêng con cá này")]
-    public Sprite fishSprite;           // Kéo ảnh riêng của con cá này vào đây
+    public Sprite fishSprite;           // Ảnh riêng của con cá
+    public AudioClip fishInfoAudio;     // File ghi âm thông tin con cá này
 
     [Header("2. UI Dùng Chung (Kéo cùng 1 Panel cho cả 16 con)")]
     public GameObject infoPanel;        // Panel UI chung
     public Image panelImageHolder;      // Khung chứa ảnh trên Panel chung
     public Button closeButton;          // Nút Đóng trên Panel chung
+    public Button audioButton;          // Nút Icon Loa trên Panel chung
+    public AudioSource audioSource;     // Component AudioSource dùng để phát âm thanh
 
-    [Header("3. Cấu hình di chuyển")]
+    [Header("3. Cấu hình di chuyển & Vị trí")]
     public float distanceFromCamera = 1.3f;
     public float heightOffset = 0.3f;
-    public float moveDuration = 0.8f;   // Thời gian cá bay tới mặt camera (0.8 giây)
+    public float panelOffsetX = 0.55f;      // Panel nằm lệch sang PHẢI cá bao nhiêu (mét)
+    public float panelOffsetY = 0.1f;       // Panel nằm lệch lên TRÊN cá bao nhiêu (mét)
+    public float moveDuration = 0.8f;       // Thời gian cá bay tới mặt camera (giây)
     public bool lookSideWays = true;
 
-    [Header("4. Script bơi tự động")]
-    public MonoBehaviour fishSwimScript; // Script bơi (RandomCaBoi / FishSwim)
+    [Header("4. Tham chiếu Component")]
+    public MonoBehaviour fishSwimScript; // Script bơi tự động (RandomCaBoi)
 
     private Vector3 originalPosition;
     private Quaternion originalRotation;
@@ -38,7 +43,7 @@ public class FishInteractable : MonoBehaviour
         Camera cam = Camera.main;
 
         // Xoay Panel UI hướng về phía Camera
-        if (isInspecting && infoPanel != null && cam != null)
+        if (isInspecting && infoPanel != null && infoPanel.activeSelf && cam != null)
         {
             infoPanel.transform.LookAt(infoPanel.transform.position + cam.transform.rotation * Vector3.forward,
                                        cam.transform.rotation * Vector3.up);
@@ -56,13 +61,11 @@ public class FishInteractable : MonoBehaviour
         Camera cam = Camera.main;
         if (cam == null) return;
 
-        // Bắn tia Raycast từ vị trí con trỏ chuột
         Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
         {
-            // Kiểm tra click trúng con cá hoặc object con chứa Collider của cá
             if (hit.transform == transform || hit.transform.IsChildOf(transform))
             {
                 ToggleInspect();
@@ -81,7 +84,6 @@ public class FishInteractable : MonoBehaviour
 
         if (isInspecting && cam != null)
         {
-            // Tắt bơi tự động khi đang xem cá
             if (fishSwimScript != null) fishSwimScript.enabled = false;
 
             originalPosition = transform.position;
@@ -112,6 +114,12 @@ public class FishInteractable : MonoBehaviour
     {
         isInspecting = false;
 
+        // Tắt voice ngay khi đóng Panel
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+
         if (infoPanel != null) infoPanel.SetActive(false);
 
         if (currentMoveCoroutine != null)
@@ -120,19 +128,25 @@ public class FishInteractable : MonoBehaviour
         currentMoveCoroutine = StartCoroutine(MoveToTarget(originalPosition, originalRotation, false));
     }
 
+    public void PlayAudioInfo()
+    {
+        if (audioSource != null && fishInfoAudio != null)
+        {
+            audioSource.Stop();
+            audioSource.PlayOneShot(fishInfoAudio);
+        }
+    }
+
     private IEnumerator MoveToTarget(Vector3 targetPos, Quaternion targetRot, bool showPanelAtEnd)
     {
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
         float elapsedTime = 0f;
 
-        // Di chuyển mượt mà dựa trên thời gian cố định (không lo kẹt vòng lặp)
         while (elapsedTime < moveDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / moveDuration;
-
-            // Sử dụng SmoothStep giúp di chuyển mượt ở 2 đầu
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
             transform.position = Vector3.Lerp(startPos, targetPos, smoothT);
@@ -140,32 +154,47 @@ public class FishInteractable : MonoBehaviour
             yield return null;
         }
 
-        // Đảm bảo vị trí và góc xoay chính xác khi kết thúc
         transform.position = targetPos;
         transform.rotation = targetRot;
 
         if (showPanelAtEnd)
         {
-            // BẬT PANEL VÀ ĐỔI CẢNH (ĐẢM BẢO CHẠY 100%)
-            if (panelImageHolder != null && fishSprite != null)
-            {
-                panelImageHolder.sprite = fishSprite;
-            }
+            Camera cam = Camera.main;
 
-            if (closeButton != null)
+            if (infoPanel != null && cam != null)
             {
-                closeButton.onClick.RemoveAllListeners();
-                closeButton.onClick.AddListener(CloseInspect);
-            }
+                // Đặt Panel bên cạnh cá
+                Vector3 panelPos = targetPos + (cam.transform.right * panelOffsetX) + (cam.transform.up * panelOffsetY);
+                infoPanel.transform.position = panelPos;
 
-            if (infoPanel != null)
-            {
+                infoPanel.transform.LookAt(infoPanel.transform.position + cam.transform.rotation * Vector3.forward,
+                                           cam.transform.rotation * Vector3.up);
+
+                // Gán ảnh riêng
+                if (panelImageHolder != null && fishSprite != null)
+                {
+                    panelImageHolder.sprite = fishSprite;
+                }
+
+                // Gán sự kiện Nút Đóng
+                if (closeButton != null)
+                {
+                    closeButton.onClick.RemoveAllListeners();
+                    closeButton.onClick.AddListener(CloseInspect);
+                }
+
+                // Gán sự kiện Nút Loa
+                if (audioButton != null)
+                {
+                    audioButton.onClick.RemoveAllListeners();
+                    audioButton.onClick.AddListener(PlayAudioInfo);
+                }
+
                 infoPanel.SetActive(true);
             }
         }
         else
         {
-            // Kích hoạt lại script bơi
             if (fishSwimScript != null)
             {
                 fishSwimScript.enabled = true;
